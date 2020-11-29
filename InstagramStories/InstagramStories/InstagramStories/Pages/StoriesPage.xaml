@@ -11,16 +11,13 @@
             <CarouselView ItemsSource="{Binding Stories}" BackgroundColor="Black">
                 <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <Grid BackgroundColor="Black">
-                                <Label Text="{Binding UserId}" TextColor="White"/>
-                                <CarouselView ItemsSource="{Binding Stories}" BackgroundColor="Black" VerticalOptions="Fill">
-                                    <CarouselView.ItemTemplate>
+                                <Grid BindableLayout.ItemsSource="{Binding Stories}" BackgroundColor="Black" VerticalOptions="Fill">
+                                    <BindableLayout.ItemTemplate>
                                         <DataTemplate>
                                                 <WebView VerticalOptions="Fill" Source="{Binding StorySource}"/>
                                         </DataTemplate>
-                                    </CarouselView.ItemTemplate>
-                                </CarouselView>
-                            </Grid>
+                                    </BindableLayout.ItemTemplate>
+                                </Grid>
                         </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
