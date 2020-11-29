@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels"
+             xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels" xmlns:local="clr-namespace:InstagramStories"
              BackgroundColor="Black"
              x:Class="InstagramStories.Pages.StoriesPage">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="imageTemplate">
+            <Image VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="videoTemplate">
+            <WebView VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
+        </DataTemplate>
+        <local:StoryTemplateSelector ImageTemplate="{StaticResource imageTemplate}" VideoTemplate="{StaticResource videoTemplate}" x:Key="storySelector"/>
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
         <viewmodel:StoriesViewmodel/>
     </ContentPage.BindingContext>
@@ -11,12 +20,10 @@
             <CarouselView ItemsSource="{Binding Stories}" BackgroundColor="Black">
                 <CarouselView.ItemTemplate>
                         <DataTemplate>
-                                <Grid BindableLayout.ItemsSource="{Binding Stories}" BackgroundColor="Black" VerticalOptions="Fill">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                                <WebView VerticalOptions="Fill" Source="{Binding StorySource}"/>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
+                                <Grid
+                                    BindableLayout.ItemTemplateSelector="{StaticResource storySelector}"
+                                    BindableLayout.ItemsSource="{Binding Stories}"
+                                      BackgroundColor="Black" VerticalOptions="Fill">
                                 </Grid>
                         </DataTemplate>
                 </CarouselView.ItemTemplate>
