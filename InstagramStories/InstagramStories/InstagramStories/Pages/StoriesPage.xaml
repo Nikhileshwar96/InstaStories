@@ -17,15 +17,36 @@
         <viewmodel:StoriesViewmodel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-            <CarouselView ItemsSource="{Binding Stories}" BackgroundColor="Black">
+            <CarouselView x:Name="parent" ItemsSource="{Binding Stories}" BackgroundColor="Black">
                 <CarouselView.ItemTemplate>
-                        <DataTemplate>
-                                <Grid
+                <DataTemplate>
+                    <Grid x:Name="userGrid">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" Command="{Binding Path=BindingContext.StatusTappedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/>
+                        </Grid.GestureRecognizers>
+                        <Grid x:Name="storyContainer"
+                              Margin="0, 10"
                                     BindableLayout.ItemTemplateSelector="{StaticResource storySelector}"
-                                    BindableLayout.ItemsSource="{Binding Stories}"
+                                    BindableLayout.ItemsSource="{Binding CurrentStories}"
                                       BackgroundColor="Black" VerticalOptions="Fill">
-                                </Grid>
-                        </DataTemplate>
+                        </Grid>
+                        <Frame CornerRadius="25" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Start" Padding="0"
+                           BackgroundColor="Orange">
+                            <Frame CornerRadius="24" Padding="0" HeightRequest="46" WidthRequest="46" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Image Source="https://nikhileshwar96.github.io/Showcase/download.png"/>
+                            </Frame>
+                        </Frame>
+                        <StackLayout HeightRequest="5" Margin="5, 50" Orientation="Horizontal" VerticalOptions="Start"  BindableLayout.ItemsSource="{Binding Stories}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <ProgressBar Progress="{Binding StoryProgress}" BackgroundColor="LightGray" ProgressColor="White">
+                                    </ProgressBar>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                        <Label Text="{Binding Path=BindingContext, Source={x:Reference parent}}" TextColor="White"/>
+                    </Grid>
+                </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
     </ContentPage.Content>

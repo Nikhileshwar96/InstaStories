@@ -1,6 +1,7 @@
 ﻿using InstagramStories.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -21,7 +22,7 @@ namespace InstagramStories.ViewModels
                 {
                     UserId = "1",
                     UserProfile = "1",
-                    Stories = new List<Story>()
+                    Stories = new ObservableCollection<Story>()
                     {
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"},
@@ -34,7 +35,7 @@ namespace InstagramStories.ViewModels
                 {
                     UserId = "2",
                     UserProfile = "2",
-                    Stories = new List<Story>()
+                    Stories = new ObservableCollection<Story>()
                     {
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"},
@@ -47,7 +48,7 @@ namespace InstagramStories.ViewModels
                 {
                     UserId = "3",
                     UserProfile = "3",
-                    Stories = new List<Story>()
+                    Stories = new ObservableCollection<Story>()
                     {
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"},
@@ -60,7 +61,7 @@ namespace InstagramStories.ViewModels
                 {
                     UserId = "4",
                     UserProfile = "4",
-                    Stories = new List<Story>()
+                    Stories = new ObservableCollection<Story>()
                     {
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
                         new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"},

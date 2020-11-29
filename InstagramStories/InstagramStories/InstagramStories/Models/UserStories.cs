@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace InstagramStories.Models
@@ -10,7 +11,10 @@ namespace InstagramStories.Models
 
         public string UserProfile { get; set; }
 
-        public List<Story> Stories { get; set; }
+        public ObservableCollection<Story> Stories { get; set; }
 
+        public ObservableCollection<Story> CurrentStories { get; set; }
+
+        public int CurrentIndex { get; set; } = 0;
     }
 }
