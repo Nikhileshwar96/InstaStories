@@ -2,30 +2,27 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels"
+             BackgroundColor="Black"
              x:Class="InstagramStories.Pages.StoriesPage">
     <ContentPage.BindingContext>
         <viewmodel:StoriesViewmodel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-            <StackLayout BindableLayout.ItemsSource="{Binding Stories}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                            <StackLayout BackgroundColor="Red" Orientation="Vertical" BindableLayout.ItemsSource="{Binding Stories}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-                                            <Label Text="{Binding StorySource}"/>
-                                            <WebView BackgroundColor="LightBlue" HeightRequest="400" Source="{Binding StorySource}"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </StackLayout>
-        </StackLayout>
-        </ScrollView>
+            <CarouselView ItemsSource="{Binding Stories}" BackgroundColor="Black">
+                <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="Black">
+                                <Label Text="{Binding UserId}" TextColor="White"/>
+                                <CarouselView ItemsSource="{Binding Stories}" BackgroundColor="Black" VerticalOptions="Fill">
+                                    <CarouselView.ItemTemplate>
+                                        <DataTemplate>
+                                                <WebView VerticalOptions="Fill" Source="{Binding StorySource}"/>
+                                        </DataTemplate>
+                                    </CarouselView.ItemTemplate>
+                                </CarouselView>
+                            </Grid>
+                        </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
     </ContentPage.Content>
 </ContentPage>
