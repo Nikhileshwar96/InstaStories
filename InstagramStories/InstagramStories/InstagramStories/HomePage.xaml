@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels"
+             x:Class="InstagramStories.MainPage">
+    <ContentPage.BindingContext>
+        <viewmodel:HomeViewmodel/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <Label Text="Testing"/>
+        <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <StackLayout BindableLayout.ItemsSource="{Binding Stories}" Orientation="Horizontal">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0"
+                           BackgroundColor="Orange">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>
