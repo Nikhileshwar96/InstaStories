@@ -3,13 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:viewmodel="clr-namespace:InstagramStories.ViewModels" xmlns:local="clr-namespace:InstagramStories"
              BackgroundColor="Black"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
              x:Class="InstagramStories.Pages.StoriesPage">
     <ContentPage.Resources>
         <DataTemplate x:Key="imageTemplate">
             <Image VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
         </DataTemplate>
         <DataTemplate x:Key="videoTemplate">
-            <WebView VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
+            <Grid>
+                <video:VideoPlayer
+                           Grid.Row="0"
+                           AutoPlay="True"                 
+                           AreTransportControlsEnabled="False"
+                           Source="{Binding StorySource}" />
+            </Grid>
+            <!--<WebView VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>-->
         </DataTemplate>
         <local:StoryTemplateSelector ImageTemplate="{StaticResource imageTemplate}" VideoTemplate="{StaticResource videoTemplate}" x:Key="storySelector"/>
     </ContentPage.Resources>
@@ -21,9 +29,7 @@
                 <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="userGrid">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" Command="{Binding Path=BindingContext.StatusTappedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/>
-                        </Grid.GestureRecognizers>
+                       
                         <Grid x:Name="storyContainer"
                               Margin="0, 10"
                                     BindableLayout.ItemTemplateSelector="{StaticResource storySelector}"
@@ -45,6 +51,22 @@
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
                         <Label Text="{Binding Path=BindingContext, Source={x:Reference parent}}" TextColor="White"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" BackgroundColor="Transparent">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.LeftSideStatusTappedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Grid Grid.Column="1" BackgroundColor="Transparent">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.RightSideStatusTappedCommand, Source={x:Reference parent}}" CommandParameter="{Binding}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
                 </CarouselView.ItemTemplate>

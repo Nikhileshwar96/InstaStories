@@ -14,11 +14,14 @@ namespace InstagramStories.ViewModels
 
         public List<UserStories> Stories { get; set; }
 
-        public ICommand StatusTappedCommand { get; set; }
+        public ICommand LeftSideStatusTappedCommand { get; set; }
+
+        public ICommand RightSideStatusTappedCommand { get; set; }
 
         public StoriesViewmodel()
         {
-            StatusTappedCommand = new Command<UserStories>(StatusTapped);
+            LeftSideStatusTappedCommand = new Command<UserStories>(LeftSideSStatusTapped);
+            RightSideStatusTappedCommand = new Command<UserStories>(RightSideStatusTapped);
             Stories = new List<UserStories>()
             {
                 new UserStories()
@@ -136,7 +139,21 @@ namespace InstagramStories.ViewModels
             };
         }
 
-        private void StatusTapped(UserStories userStories)
+
+
+        private void LeftSideSStatusTapped(UserStories userStories)
+        {
+            var currentIndex = userStories.CurrentIndex;
+            var newCurrentIndex = userStories.CurrentIndex - 1;
+            if (newCurrentIndex != -1 && newCurrentIndex < userStories.Stories.Count - 1)
+            {
+                userStories.CurrentStories.Clear();
+                userStories.CurrentStories.Add(userStories.Stories[newCurrentIndex]);
+                userStories.CurrentIndex = newCurrentIndex;
+            }
+        }
+
+        private void RightSideStatusTapped(UserStories userStories)
         {
             var currentIndex = userStories.CurrentIndex;
             var newCurrentIndex = userStories.CurrentIndex + 1;
