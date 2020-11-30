@@ -6,8 +6,9 @@
              xmlns:video="clr-namespace:FormsVideoLibrary"
              x:Class="InstagramStories.Pages.StoriesPage">
     <ContentPage.Resources>
+        <local:VideoSourceConverter x:Key="videoSourceConverter"/>
         <DataTemplate x:Key="imageTemplate">
-            <Image VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
+            <Image Margin="0, 50" VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>
         </DataTemplate>
         <DataTemplate x:Key="videoTemplate">
             <Grid>
@@ -15,7 +16,7 @@
                            Grid.Row="0"
                            AutoPlay="True"                 
                            AreTransportControlsEnabled="False"
-                           Source="{Binding StorySource}" />
+                           Source="{Binding StorySource, Converter={StaticResource videoSourceConverter}}" />
             </Grid>
             <!--<WebView VerticalOptions="Fill" HorizontalOptions="Fill" Source="{Binding StorySource}"/>-->
         </DataTemplate>
@@ -36,13 +37,13 @@
                                     BindableLayout.ItemsSource="{Binding CurrentStories}"
                                       BackgroundColor="Black" VerticalOptions="Fill">
                         </Grid>
-                        <Frame CornerRadius="25" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Start" Padding="0"
+                        <Frame CornerRadius="25" Margin="0,20,0,0" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Start" Padding="0"
                            BackgroundColor="Orange">
                             <Frame CornerRadius="24" Padding="0" HeightRequest="46" WidthRequest="46" VerticalOptions="Center" HorizontalOptions="Center">
                                 <Image Source="https://nikhileshwar96.github.io/Showcase/download.png"/>
                             </Frame>
                         </Frame>
-                        <StackLayout HeightRequest="5" Margin="5, 50" Orientation="Horizontal" VerticalOptions="Start"  BindableLayout.ItemsSource="{Binding Stories}">
+                        <StackLayout HeightRequest="2" Margin="5, 5" Orientation="Horizontal" VerticalOptions="Start"  BindableLayout.ItemsSource="{Binding Stories}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <ProgressBar Progress="{Binding StoryProgress}" BackgroundColor="LightGray" ProgressColor="White">
@@ -50,7 +51,7 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
-                        <Label Text="{Binding Path=BindingContext, Source={x:Reference parent}}" TextColor="White"/>
+                        <Label Margin="60, 10, 0, 20" VerticalTextAlignment="Center" LineBreakMode="TailTruncation" HeightRequest="50" VerticalOptions="Start" Text="{Binding Path=BindingContext, Source={x:Reference parent}}" TextColor="White"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
