@@ -7,5 +7,7 @@ namespace InstagramStories.Models
     class Story
     {
         public string StorySource { get; set; }
+
+        public int Index { get; set; }
     }
 }

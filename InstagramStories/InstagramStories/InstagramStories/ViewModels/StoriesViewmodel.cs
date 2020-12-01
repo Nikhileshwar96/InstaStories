@@ -2,15 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace InstagramStories.ViewModels
 {
-    class StoriesViewmodel
+    class StoriesViewmodel : INotifyPropertyChanged
     {
-        public double storyProgress { get; set; }
+        private int storyProgress;
+
+        private int currentUserIndex;
 
         public List<UserStories> Stories { get; set; }
 
@@ -18,10 +22,37 @@ namespace InstagramStories.ViewModels
 
         public ICommand RightSideStatusTappedCommand { get; set; }
 
+        public int StoryProgress 
+        {
+            get
+            {
+                return this.storyProgress;
+            }
+            set
+            {
+                this.storyProgress = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        public int CurrentUserIndex
+        {
+            get
+            {
+                return this.currentUserIndex;
+            }
+            set
+            {
+                this.currentUserIndex = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public StoriesViewmodel()
         {
-            LeftSideStatusTappedCommand = new Command<UserStories>(LeftSideSStatusTapped);
-            RightSideStatusTappedCommand = new Command<UserStories>(RightSideStatusTapped);
+            LeftSideStatusTappedCommand = new Command<UserStories>(MoveToPreviousStory);
+            RightSideStatusTappedCommand = new Command<UserStories>(MoveToNextStory);
             Stories = new List<UserStories>()
             {
                 new UserStories()
@@ -30,12 +61,12 @@ namespace InstagramStories.ViewModels
                     UserProfile = "1",
                     Stories = new ObservableCollection<Story>()
                     {
-                        new Story(){StorySource = "https://nikhileshwar96.github.io/Showcase/sunflower.jpg"},
-                        new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"},
-                        new Story(){StorySource = "https://nikhileshwar96.github.io/Showcase/sunflower.jpg"},
-                        new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"},
-                        new Story(){StorySource = "https://nikhileshwar96.github.io/Showcase/sunflower.jpg"},
-                        new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"},
+                        new Story(){StorySource = "https://nikhileshwar96.github.io/Showcase/sunflower.jpg", Index = 0},
+                        new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", Index = 1},
+                        new Story(){StorySource = "https://nikhileshwar96.github.io/Showcase/sunflower.jpg", Index = 2},
+                        new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", Index = 3},
+                        new Story(){StorySource = "https://nikhileshwar96.github.io/Showcase/sunflower.jpg", Index = 4},
+                        new Story(){StorySource = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", Index = 5},
                     },
                     CurrentStories = new ObservableCollection<Story>()
                     {
@@ -137,11 +168,29 @@ namespace InstagramStories.ViewModels
                     }
                    },
             };
+
+            Device.StartTimer(TimeSpan.FromMilliseconds(300), StoryTimedOut);
         }
 
+        private bool StoryTimedOut()
+        {
+            if (this.CurrentUserIndex < this.Stories.Count)
+            {
+                this.StoryProgress = this.StoryProgress + 1;
+                if (this.StoryProgress % 100 == 0)
+                {
+                    MoveToNextStory(this.Stories[this.CurrentUserIndex]);
+                }
 
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-        private void LeftSideSStatusTapped(UserStories userStories)
+        private void MoveToPreviousStory(UserStories userStories)
         {
             var currentIndex = userStories.CurrentIndex;
             var newCurrentIndex = userStories.CurrentIndex - 1;
@@ -153,7 +202,7 @@ namespace InstagramStories.ViewModels
             }
         }
 
-        private void RightSideStatusTapped(UserStories userStories)
+        private void MoveToNextStory(UserStories userStories)
         {
             var currentIndex = userStories.CurrentIndex;
             var newCurrentIndex = userStories.CurrentIndex + 1;
@@ -164,5 +213,16 @@ namespace InstagramStories.ViewModels
                 userStories.CurrentIndex = newCurrentIndex;
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
     }
 }
