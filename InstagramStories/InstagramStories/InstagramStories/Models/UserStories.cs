@@ -13,7 +13,7 @@ namespace InstagramStories.Models
 
         public ObservableCollection<Story> Stories { get; set; }
 
-        public ObservableCollection<Story> CurrentStories { get; set; }
+        public ObservableCollection<Story> CurrentStories { get; set; } = new ObservableCollection<Story>();
 
         public int CurrentIndex { get; set; } = 0;
     }
