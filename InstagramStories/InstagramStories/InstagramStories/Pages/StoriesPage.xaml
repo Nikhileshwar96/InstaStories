@@ -28,7 +28,7 @@
         <viewmodel:StoriesViewmodel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-            <CarouselView x:Name="parent" TabIndex="{Binding CurrentUserIndex}" ItemsSource="{Binding Stories}" BackgroundColor="Black">
+            <CarouselView x:Name="parent" TabIndex="{Binding CurrentUserIndex}" CurrentItemChangedCommand="{Binding CurentStoriesChangedCommand}" ItemsSource="{Binding Stories}" BackgroundColor="Black">
                 <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="userGrid">

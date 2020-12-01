@@ -22,6 +22,9 @@ namespace InstagramStories.ViewModels
 
         public ICommand RightSideStatusTappedCommand { get; set; }
 
+        public ICommand CurentStoriesChangedCommand { get; set; }
+        
+
         public int StoryProgress 
         {
             get
@@ -44,15 +47,20 @@ namespace InstagramStories.ViewModels
             }
             set
             {
-                this.currentUserIndex = value;
-                NotifyPropertyChanged();
+                if (this.currentUserIndex != value)
+                {
+                    this.currentUserIndex = value;              
+                    NotifyPropertyChanged();
+                }
             }
         }
+
 
         public StoriesViewmodel()
         {
             LeftSideStatusTappedCommand = new Command<UserStories>(MoveToPreviousStory);
             RightSideStatusTappedCommand = new Command<UserStories>(MoveToNextStory);
+            CurentStoriesChangedCommand = new Command(CurentStoriesChanged);
             Stories = new List<UserStories>()
             {
                 new UserStories()
@@ -169,7 +177,7 @@ namespace InstagramStories.ViewModels
                    },
             };
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(300), StoryTimedOut);
+            Device.StartTimer(TimeSpan.FromMilliseconds(45), StoryTimedOut);
         }
 
         private bool StoryTimedOut()
@@ -190,27 +198,37 @@ namespace InstagramStories.ViewModels
             }
         }
 
+
+        private void CurentStoriesChanged()
+        {
+            this.StoryProgress = 0;
+        }
+
         private void MoveToPreviousStory(UserStories userStories)
         {
             var currentIndex = userStories.CurrentIndex;
             var newCurrentIndex = userStories.CurrentIndex - 1;
-            if (newCurrentIndex != -1 && newCurrentIndex < userStories.Stories.Count - 1)
+            if (newCurrentIndex != -1 && newCurrentIndex <= userStories.Stories.Count - 1)
             {
                 userStories.CurrentStories.Clear();
+                this.StoryProgress = 0;
+                this.StoryProgress = this.StoryProgress + (newCurrentIndex * 100);
                 userStories.CurrentStories.Add(userStories.Stories[newCurrentIndex]);
                 userStories.CurrentIndex = newCurrentIndex;
             }
         }
 
         private void MoveToNextStory(UserStories userStories)
-        {
+        {            
             var currentIndex = userStories.CurrentIndex;
             var newCurrentIndex = userStories.CurrentIndex + 1;
-            if (newCurrentIndex < userStories.Stories.Count - 1)
+            if (newCurrentIndex <= userStories.Stories.Count - 1)
             {
                 userStories.CurrentStories.Clear();
+                this.StoryProgress = 0;
+                this.StoryProgress = this.StoryProgress + (newCurrentIndex * 100);
                 userStories.CurrentStories.Add(userStories.Stories[newCurrentIndex]);
-                userStories.CurrentIndex = newCurrentIndex;
+                userStories.CurrentIndex = newCurrentIndex;                
             }
         }
 
